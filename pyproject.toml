@@ -1,0 +1,11 @@
+[project]
+name = "toyshop-decoder"
+version = "0.1.0"
+description = "Decoder for Broderbund's The Toy Shop (1986) .M1 print data files"
+requires-python = ">=3.12"
+dependencies = [
+    "pillow",
+]
+
+[project.scripts]
+render-toyshop = "render_toyshop:main"
