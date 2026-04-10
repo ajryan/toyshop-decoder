@@ -18,6 +18,7 @@ Usage:
     uv run render_toyshop.py carousel        # case-insensitive
     render-toyshop CAROUSEL                  # if installed via uv
 """
+
 import argparse
 import struct
 import sys
@@ -96,9 +97,9 @@ def main() -> None:
     )
     parser.add_argument(
         "--orientation",
-        choices=["landscape", "portrait"],
-        default="landscape",
-        help="Output orientation (default: landscape).",
+        choices=["portrait", "landscape"],
+        default="portrait",
+        help="Output orientation (default: portrait).",
     )
     args = parser.parse_args()
 
