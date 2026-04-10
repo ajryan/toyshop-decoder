@@ -69,22 +69,21 @@ def render_bitmap(decoded: bytes, cols: int = COLS) -> Image.Image:
     return img.rotate(180)
 
 
-def render_file(path: Path, out_dir: Path) -> None:
-    """Decode one .M? file and save landscape + portrait PNGs."""
+def render_file(path: Path, out_dir: Path, orientation: str) -> None:
+    """Decode one .M? file and save a PNG in the requested orientation."""
     raw = path.read_bytes()
     vec_offset = struct.unpack(">I", raw[4:8])[0]
     decoded = decode_packbits(raw[8:vec_offset])
     img = render_bitmap(decoded)
 
+    if orientation == "portrait":
+        img = img.rotate(-90, expand=True)
+
     stem = path.stem.upper() + path.suffix.upper()  # e.g. CAROUSEL.M1
+    out_path = out_dir / f"{stem}_{orientation}.png"
+    img.save(out_path)
 
-    landscape_path = out_dir / f"{stem}_landscape.png"
-    img.save(landscape_path)
-
-    portrait_path = out_dir / f"{stem}_portrait.png"
-    img.rotate(-90, expand=True).save(portrait_path)
-
-    print(f"  {path.name} -> {landscape_path.name}, {portrait_path.name}")
+    print(f"  {path.name} -> {out_path.name}")
 
 
 def main() -> None:
@@ -94,6 +93,12 @@ def main() -> None:
     parser.add_argument(
         "toy_name",
         help="Toy name to render (e.g. CAROUSEL). Case-insensitive.",
+    )
+    parser.add_argument(
+        "--orientation",
+        choices=["landscape", "portrait"],
+        default="landscape",
+        help="Output orientation (default: landscape).",
     )
     args = parser.parse_args()
 
@@ -107,9 +112,9 @@ def main() -> None:
         sys.exit(1)
 
     OUT_DIR.mkdir(exist_ok=True)
-    print(f"Rendering {len(pages)} page(s) for {toy}:")
+    print(f"Rendering {len(pages)} page(s) for {toy} ({args.orientation}):")
     for page in pages:
-        render_file(page, OUT_DIR)
+        render_file(page, OUT_DIR, args.orientation)
 
 
 if __name__ == "__main__":
