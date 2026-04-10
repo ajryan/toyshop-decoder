@@ -1,0 +1,17 @@
+Instructions (for getting the program to run the first time):
+
+* Run CRACK.COM to patch STMAIN.OVR (you only need to do this once!).
+* Start game with START.COM.
+* Choose to run Setup. (you have no option really...)
+* Select your printer (may be a problem. Just choose anyone if you don't
+  actually have a listed one, but you will probably not be able to print.
+  Solution?).
+* Choose to load data files from Hard disk.
+* Press Enter on path to select current directory.
+* If you don't have a listed printer, press any key on the printer test
+  and it will eventually time out and return an error. Select Cancel.
+  Even if you have a listed printer, you still have to do the test...
+* There is no need to insert any Master disk in drive A, so just press any
+  key to save your config on HD.
+
+/demonlord
